@@ -1,0 +1,83 @@
+<!-- 
+  Hvis du opplever CORS feil når du prøver å servere nettsiden fra en
+  lokal fil i google chrome, så er dette grunnet at Google sin implementasjon
+  av fetch APIen krever CORS sjekk, også fra lokale filer. Hvis du åpner
+  .html-filen med Firefox, eller serverer nettsiden fra en lokal webserver vil
+  du ikke få disse feilmeldingene. Alternativt kan du åpne chrome med følgende
+  flagg: Chrome.exe --disable-web-security
+
+  Til tross for dette har jeg valgt å benytte meg av fetch APIen, fordi dette er
+  et senario man kun vil støte på under utvikling av appen, ikke i produksjon.
+
+  les mer her:
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Specifications
+  https://fetch.spec.whatwg.org/#cors-protocol
+  -->
+<!DOCTYPE html>
+<html lang="no-nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge; chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Har du lyst til å teste dine
+      kunnskaper i JavaScript? Prøv quizen vår og få koll på
+      hva du kan og ikke kan!"
+    />
+    <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">
+        Du bruker en veldig <strong>utdatert</strong> nettleser. Vennligst
+        <a href="https://browsehappy.com/">oppgrader nettleseren din</a> for den
+        beste brukeropplevelsen
+      </p>
+    <![endif]-->
+    <header>
+      <h1 class="overskrift" onclick="q.gåHjem()">JavaScript Quiz</h1>
+      <h1 id="emne"></h1>
+    </header>
+    <main>
+      <div class="intro skjult">
+        <p class="intro-lead">
+          Test kunnskapene dine innenfor ulike emner i JavaScript! Velg mellom
+          temaene.
+        </p>
+        <!-- liste over forskjellige quizer -->
+        <ul class="intro-quiz-liste"></ul>
+      </div>
+
+      <div class="quiz skjult">
+        <!-- navigasjon mellom spørsmål -->
+        <nav class="quiz-nav">
+          <!-- span for hvert spørsmål i oppgavesett -->
+        </nav>
+        <!-- Spørsmål -->
+        <h2 class="quiz-spørsmål"></h2>
+        <!-- Svaralternativer -->
+        <section class="quiz-svar"></section>
+        <!-- Knappnavigasjon mellom spørsmål -->
+        <section>
+          <button id="forrige">Forrige</button>
+          <button id="neste">Neste</button>
+          <button id="avslutt">Avslutt</button>
+          <button id="nullstill">Nullstill svar</button>
+        </section>
+      </div>
+
+      <div class="oppsummering skjult">
+        <h1>Oppsummering</h1>
+        <div class="spørsmål-liste">
+          <!-- spørsmål -->
+        </div>
+        <button onclick="q.gåHjem()">Prøv våre andre quizer!</button>
+      </div>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

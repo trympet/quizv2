@@ -1,0 +1,5 @@
+- validere resultater med andre kalkulatorer
+- validere edge case inputs
+    negative, ugyldige
+- teste i chrome, firefox
+- teste forskjellige skjermstørrelser

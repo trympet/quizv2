@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rentes rente kalkulator</title>
+    <link rel="stylesheet" href="assets/css/rentesrente.css" />
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">
+        Du bruker en veldig <strong>utdatert</strong> nettleser. Vennligst
+        <a href="https://browsehappy.com/">oppgrader nettleseren din</a> for den
+        beste brukeropplevelsen
+      </p>
+    <![endif]-->
+    <header>
+      <h1 class="overskrift">Rentes Renter kalkulator</h1>
+    </header>
+    <main>
+      <section class="form">
+        <form id="rente">
+          <h5 class="form-overskrift">Fyll ut</h5>
+          <div class="form-row">
+            <div class="gruppe">
+              <input type="number" placeholder="Startkapital" name="startkapital" id="startkapital" min="1" /><span class="prefix">kr</span>
+              <label for="startkapital">Førstegangsinnskudd som du starter med</label>
+            </div>
+            <div class="gruppe">
+              <input type="number" placeholder="Måndlig innskudd" name="mnd-inn" id="mnd-inn" min="1" /><span class="prefix">kr</span>
+              <label for="månedlig-innskudd">Fast måndlig innskudd</label>
+            </div>
+          </div>
+          <div class="form-row">
+              <div class="gruppe">
+                <input type="number" placeholder="Sparehorisont" name="sparehorisont" id="sparehorisont" min="1" max="50" /><span class="prefix">år</span>
+                <label for="sparehorisont">Antall år du ønsker å spare</label>
+              </div>
+              <div class="gruppe">
+                <input type="number" placeholder="Rentesats" name="rentesats" id="rentesats" min="1" max="100" /><span class="prefix">%</span>
+                <label for="rentesats">Estimert rentesats i prosent</label>
+              </div>
+          </div>
+          <div class="form-row">
+
+          </div>
+          <div class="form-row">
+              <div class="gruppe">
+                <input type="number" placeholder="Årlige renteutbetalinger" name="tidsintervall" id="tidsintervall" min="1" max="365" /><span class="prefix">  </span>
+                <label for="tidsintervall">Antall ganger avkastningen blir reinvestert pr år</label>
+              </div>
+            <button type="submit" disabled>Kalkuler</button>
+          </div>
+        </form>
+      </section>
+      <section>
+        <div class="output">
+          <!-- textoutput basert på beregninger -->
+        </div>
+        <input class="skjult" type="range" id="sparehorisont-glider" min="1" max="50">
+        <div class="graf">
+          <!-- SVG graf -->
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/rentesrente.js"></script>
+  </body>
+</html>

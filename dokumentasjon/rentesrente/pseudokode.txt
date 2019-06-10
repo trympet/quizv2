@@ -1,0 +1,45 @@
+Programmet lar brukeren kalkulere rentes rente, og presenterer resultatet
+med hjelp av en svg graf.
+
+Når brukeren taster input i form:
+  hvis ugyldigInput() er false:
+    submit er disabled
+end
+
+Når brukeren klikker kalkuler:
+  beregnRente:
+
+    Hent input
+
+    for hvert år i sparehorisont:
+
+      Kalkuler A = P(1+r/n)^(nt)
+      Kalkuler A = ((1+r/n)^(nt)-1)/(r/n)
+
+      lagre summen av kalkulasjonene i en array hvor indeksen representerer
+      årene i kronologisk rekkefølge
+
+    returner arrayen, sparehorisont og siste indeksen i arrayen (total)
+    
+end
+
+tegnGraf(objekt med returverdier fra beregnRente):
+  labels y-akse:
+    del total på 10 og regn ut kordinatene til verdiene så de er 
+    like langt fra hverandre.
+
+    avrund til nærmeste 100
+  
+  labels x-akse:
+    for hvert år:
+      dele opp bredden til x-aksen i antall år slik at de har likt offset
+      og plasser labelsene på tilhørende x-koordinat
+
+  plottverdier:
+    for hvert år:
+      y-koordinat: del opp y-aksen slik at antall vertikale units representerer en bestemt sum penger
+      gange denne ratioen med antall penger
+
+      x-koordinat: antall horisontale units delt på antall år
+end
+

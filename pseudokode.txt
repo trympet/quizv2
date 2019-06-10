@@ -1,0 +1,8 @@
+Når bruker besøker siden
+    Vis introduksjonsview
+
+Når bruker klikker start 
+    Hent spørsmål
+    Generer nav
+    Print spørsmål samt svar
+    

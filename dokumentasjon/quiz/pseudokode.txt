@@ -1,0 +1,26 @@
+NAVIGASJON
+
+bruker navigerer med navbar:
+  lagrer valgt(e) svar
+  lagrer indeksen til valgt spørsmål
+  viser spørsmål som tilhører valgt indeks
+  legger til css klasse i navbar som tilhører valgt spørsmål
+
+bruker klikker neste:
+  inkrementer spørsmålsindeksen med 1
+  legger til css klasse i navbar som tilhører valgt spørsmål
+  viser spørsmål som tilhører ny indeks
+
+bruker klikker forrige:
+  minker spørsmålsindeksen med 1
+  legger til css klasse i navbar som tilhører valgt spørsmål
+  viser spørsmål som tilhører ny indeks
+
+vis nytt spørsmål:
+  sletter gammelt innhold
+  for hvert svaralternativ:
+    setter radio eller select
+    setter tekst
+    hvis alternativstring finnes blandt blandt avgitte svar for gjeldende spørsmål:
+      markerer alternativet som valgt
+  viser alle svaralternativer

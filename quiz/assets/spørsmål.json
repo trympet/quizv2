@@ -1,0 +1,108 @@
+[
+  {
+    "tema": "DOM",
+    "oppgavesett": [
+      {
+        "type": "radio",
+        "spørsmål": "Hva står DOM for?",
+        "svaralternativer": [
+          "Direct object manipulation",
+          "Document object model",
+          "Document object manipulation",
+          "Direct object model"
+        ],
+        "fasit": ["Document object model"]
+      },
+      {
+        "type": "checkbox",
+        "spørsmål": "Hvilke elementer er tilknyttet DOM APIen?",
+        "svaralternativer": [
+          "window",
+          "browser",
+          "webpage",
+          "document"
+        ],
+        "fasit": ["window", "document"]
+      },
+      {
+        "type": "radio",
+        "spørsmål": "Hvordan henter man frem alle <p> elementer?",
+        "svaralternativer": [
+          "document.querySelector('p')",
+          "document.getElementById('p')",
+          "document.getElementsByClassName('p')",
+          "document.getElementsByTagName('p')"
+        ],
+        "fasit": ["document.getElementsByTagName('p')"]
+      }
+    ]
+  },
+  
+  {
+    "tema": "Syntaks",
+    "oppgavesett": [
+      {
+        "type": "radio",
+        "spørsmål": "Hvis vi deklarerer variablen let test = 1, og senere skriver test = 2, hva skjer?",
+        "svaralternativer": [
+          "Test vil være lik 2",
+          "Test vil være lik 1",
+          "JavaScript vil returnere en TypeError",
+          "Test vil være lik udefinert"
+        ],
+        "fasit": ["Test vil være lik 2"]
+      },
+      {
+        "type": "radio",
+        "spørsmål": "Hva er hovedforskjellene mellom let og const?",
+        "svaralternativer": [
+          "let kan endres, const kan ikke endres",
+          "let kan ikke endres, const  kan endres",
+          "let er function scope, mens const er block scope",
+          "let er block scope, mens const er function scope"
+        ],
+        "fasit": ["let kan endres, const kan ikke endres"]
+      },
+      {
+        "type": "radio",
+        "spørsmål": "Uttrykket 8 >= 8 evalueres til:",
+        "svaralternativer": [
+          "true",
+          "false"
+        ],
+        "fasit": ["true"]
+      },
+      {
+        "type": "radio",
+        "spørsmål": "Hva blir '2' + '2' - '2'????",
+        "svaralternativer": [
+          "24",
+          "22-2",
+          "20",
+          "NaN"
+        ],
+        "fasit": ["20"]
+      },
+      {
+        "type": "checkbox",
+        "spørsmål": "Hvilken påstand er sann?",
+        "svaralternativer": [
+          "Linjekommentarer starter med //",
+          "Kommentarer er totalt usynlig for klienten",
+          "Kommentarer brukes til å forvirre programmerere"
+        ],
+        "fasit": ["Linjekommentarer starter med //"]
+      },
+      {
+        "type": "radio",
+        "spørsmål": "Hvilken påstand er sann?",
+        "svaralternativer": [
+          "Linjekommentarer starter med //",
+          "Kommentarer er totalt usynlig for klienten",
+          "Kommentarer brukes til å forvirre programmerere"
+        ],
+        "fasit": ["Linjekommentarer starter med //"]
+      }
+    ]
+  }
+]

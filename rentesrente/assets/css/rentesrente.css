@@ -1,0 +1,304 @@
+@font-face {
+  font-family: Roboto;
+  font-weight: 400;
+  src: url(/assets/fonts/Roboto-Regular.ttf);
+}
+@font-face {
+  font-family: Roboto;
+  font-weight: 300;
+  src: url(/assets/fonts/Roboto-Light.ttf);
+}
+
+@-webkit-keyframes skliInnFraVenstre {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes skliInnFraVenstre {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes fadeInnOpp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(-100%, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes fadeInnOpp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(-100%, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    margin: 0 2rem !important;
+  }
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  background-color: #fafafa;
+}
+.skjult {
+  visibility: hidden;
+}
+/* Layout */
+main {
+  margin: 0 5rem;
+
+  position: relative;
+}
+section {
+  max-width: 1200px;
+  margin: auto;
+}
+
+header {
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 4rem;
+  -webkit-box-shadow: 0 4px 8px -3px rgba(17, 17, 17, 0.06);
+  box-shadow: 0 4px 8px -3px rgba(17, 17, 17, 0.06);
+}
+header > .overskrift {
+  font-size: 1.5rem;
+  margin: 0 0 0 5rem;
+  position: absolute;
+  color: #4185f4;
+}
+
+.form {
+  background-color: #ffffff;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 1rem;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+form {
+  margin: auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.form-overskrift {
+  display: inline;
+  font-weight: 500;
+  margin: 0;
+  font-size: 1.4rem;
+}
+.form-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  position: relative;
+}
+.form-gruppe {
+  position: relative;
+  padding: 1.5rem 3rem;
+}
+.gruppe {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 250px;
+  flex: 1 1 250px;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-row input {
+  width: calc(100% - 4rem);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding: 0.3rem 0 0.55rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  border-bottom: 1px solid #ced4da;
+  border-radius: 0;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: transparent;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+}
+input[type="number"]:focus {
+  -webkit-box-shadow: 0 1px 0 0 #4285f4;
+  box-shadow: 0 1px 0 0 #4285f4;
+  border-bottom: 1px solid #4285f4;
+}
+input.ugyldig {
+  -webkit-box-shadow: 0 1px 0 0 #f44242 !important;
+  box-shadow: 0 1px 0 0 #f44242 !important;
+  border-bottom: 1px solid #f44242 !important;
+}
+
+#sparehorisont-glider {
+  width: 80%;
+  display: block;
+  margin: 2rem auto;
+  position: relative;
+}
+#sparehorisont-glider::before {
+  font-size: 1rem;
+
+  content: "0 år";
+  color: #000;
+  position: absolute;
+  left: -2rem;
+}
+#sparehorisont-glider::after {
+  font-size: 1rem;
+  content: "50 år";
+  color: #000;
+  position: absolute;
+  right: -2.5rem;
+}
+
+input + .prefix:first-of-type {
+  margin-right: 1rem;
+}
+button {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 250px;
+  flex: 1 1 250px;
+  outline: 0;
+  border: 0;
+  line-height: 1.5rem;
+  font-weight: 300;
+  background: #4285f4;
+  color: white;
+  padding: 0.5rem 2em;
+  margin: auto;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.65;
+}
+input + .prefix {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.5rem 0.55rem 0;
+}
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: #757575;
+}
+
+/* output */
+.output {
+  font-weight: bolder;
+}
+.output h2 {
+  display: inline;
+  font-size: 3.5rem;
+  line-height: 1.2;
+  color: #0d47a1;
+}
+.output h3 {
+  display: inline;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  color: #0d47a1;
+}
+
+/* SVG stiler */
+.graf {
+  margin-bottom: 2rem;
+}
+.akse {
+  stroke: #bbb;
+  stroke-dasharray: 0;
+  stroke-width: 1;
+}
+.akse-navn {
+  -webkit-transform: rotate(270 26 162);
+  -ms-transform: rotate(270 26 162);
+  transform: rotate(270 26 162);
+  color: #000;
+  font-family: "Roboto" sans-serif;
+}
+.akse-animasjon {
+  -webkit-animation-name: skliInnFraVenstre;
+  animation-name: skliInnFraVenstre;
+  -webkit-animation-duration: 1.1s;
+  animation-duration: 1.1s;
+}
+.graf-animasjon {
+  -webkit-animation-name: fadeInnOpp;
+  animation-name: fadeInnOpp;
+  -webkit-animation-duration: 800ms;
+  animation-duration: 800ms;
+}
+.total-linje {
+  stroke: #2b4572;
+}
+.innskudd-linje {
+  stroke: #005a29;
+}

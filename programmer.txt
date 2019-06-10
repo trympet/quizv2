@@ -1,0 +1,2 @@
+IDE: Visual Studio Code
+Nettleser: Chrome (nyeste person)

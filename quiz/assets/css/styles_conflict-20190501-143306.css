@@ -1,0 +1,268 @@
+@font-face {
+  font-family: Roboto;
+  font-weight: 400;
+  src: url(./fonts/Roboto-Regular.ttf);
+}
+@font-face {
+  font-family: Roboto;
+  font-weight: 300;
+  src: url(./fonts/Roboto-Light.ttf);
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    margin: 0 2rem 2rem 2rem !important;
+  }
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+body {
+  margin: 0;
+  position: relative;
+  font-family: Roboto, sans-serif;
+  background-color: #fafafa;
+}
+header {
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 4rem;
+  -webkit-box-shadow: 0 4px 8px -3px rgba(17, 17, 17, 0.06);
+          box-shadow: 0 4px 8px -3px rgba(17, 17, 17, 0.06);
+}
+header > .overskrift {
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin: 0 0 0 5rem;
+  position: absolute;
+  color: #4185f4;
+}
+header #emne {
+  margin: auto;
+  font-weight: 100;
+}
+main {
+  margin: 0 5rem 2rem 5rem;
+}
+main > section {
+  margin: auto;
+  max-width: 1000px;
+}
+.skjult { /* skjulte elementer */
+  display: none !important;
+}
+ul {
+  list-style: none;
+}
+.intro {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1rem 1fr;
+  grid-template-columns: 1fr 1fr;
+  -webkit-column-gap: 1rem;
+          column-gap: 1rem;
+}
+.intro-lead {
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+.intro-quiz-liste {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.intro-quiz-liste li {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #4285f4;
+  cursor: pointer;
+}
+.quiz {
+  margin-top: 3rem;
+}
+.quiz-nav {
+  width: 100%;
+  list-style: none;
+  display: -ms-grid;
+  display: grid;
+  grid-auto-flow: column;
+  border-radius: 0.2rem;
+  position: relative;
+  overflow: hidden;
+  background-color: #00000047;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+.quiz-nav span {
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  border-right: 1px solid #fff;
+  color: #2f2f2f;
+  min-width: 5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+
+}
+.quiz-nav span:last-of-type {
+  border-right: 0;
+}
+.quiz-nav .aktiv {
+  background-color: #4285f4 !important;
+  color: #fff;
+}
+.quiz-nav .besøkt {
+  background-color: #4185f48c;
+  color: #fff;
+}
+.quiz-svar {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+  background: #fff;
+  margin-bottom: 2rem;
+}
+.quiz-svar>* {
+  position: relative;
+  padding: .8rem .5rem;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+input[name="svaralternativer"] {
+  float: left;
+}
+.fremgang-wrapper {
+  background-color: #f1f1f1;
+  line-height: 1.5;
+  display: block;
+  border-radius: 16px;
+  max-width: 1000px;
+  margin: auto;
+}
+.fremgang {
+  background-color: #828282;
+  opacity: 0.6;
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+  border-right: 2px solid #f1f1f1;
+  display: inline-block;
+}
+.fremgang:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.fremgang.active {
+  background-color: #4285f4;
+  opacity: 1;
+}
+.fremgang.utfylt {
+  background-color: #4285f4;
+}
+.fremgang.ikke-utfylt {
+  background-color: #4285f4;
+}
+.fremgang:first-of-type {
+  border-radius: 1rem 0 0 1rem;
+}
+.fremgang:last-of-type {
+  border-radius: 0 1rem 1rem 0;
+}
+.spørsmål-liste {
+  margin-bottom: 2rem;
+}
+.spørsmål-liste > .spørsmål {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 1rem 1.5rem;
+  position: relative;
+}
+.spørsmål-liste > .spørsmål:not(.aktiv) > .alternativer {
+  display: none;
+}
+.spørsmål-liste > .spørsmål.aktiv > .alternativer {
+  display: block !important;
+}
+.spørsmål-liste > .spørsmål > span {
+  font-size: 1.25rem;
+  color: #007bff;
+  font-weight: 300;
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin-right: 6rem;
+}
+.spørsmål-liste .alternativer {
+  margin: 0;
+  padding: 1rem 0.5rem;
+}
+.spørsmål-liste > .spørsmål .alternativ {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.spørsmål-liste .fasit {
+  background-color: #c5c5c5;
+}
+.spørsmål-liste .riktig {
+  font-weight: 600;
+  background-color: #81ce8a;
+}
+.spørsmål-liste .galt {
+  font-weight: 600;
+}
+.spørsmål-liste > .spørsmål > span::before {
+  content: attr(data-content);
+  position: absolute;
+  right: 5rem;
+}
+.spørsmål-liste > .spørsmål > span::after {
+  color: #007bff;
+  display: inline-block;
+  position: absolute;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  top: 1.4rem;
+  right: 2rem;
+  border-top: 0.4em solid;
+  border-right: 0.4em solid transparent;
+  border-bottom: 0;
+  border-left: 0.4em solid transparent;
+}
+.spørsmål-liste > .spørsmål.aktiv > span::after {
+  color: #007bff;
+  display: inline-block;
+  position: absolute;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  top: 1.4rem;
+  right: 2rem;
+  border-bottom: 0.4em solid;
+  border-right: 0.4em solid transparent;
+  border-top: 0;
+  border-left: 0.4em solid transparent;
+}

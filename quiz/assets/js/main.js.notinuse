@@ -1,0 +1,179 @@
+// @ts-check
+/*
+https://developer.mozilla.org/en-US/docs/Web/API/History_API
+*/
+
+import Quiz from './quiz.js';
+
+const seksjoner = {
+  intro: {
+    main: document.querySelector(".intro"),
+    overskrift: document.querySelector(".overskrift"),
+    quizListe: document.querySelector(".intro-quiz-liste"),
+    generer: spørsmål => {
+      spørsmål.forEach(quiz => {
+        // for hvert temasett
+        const quizTema = document.createElement("li");
+        quizTema.innerText = quiz.tema;
+        quizTema.dataset.quiz = quiz.tema;
+        quizTema.addEventListener("click", () => this.startNyQuiz(quiz.tema)); // starter quiz
+        this.intro.quizListe.appendChild(quizTema); // legger til listeelement
+      });
+    },
+  },
+  quiz: {
+    main: document.querySelector(".quiz"),
+    nav: {
+      element: document.querySelector(".quiz-nav"),
+      generer: oppgavesett => {
+        let indeks = 0;
+        // @ts-ignore
+        for (let o of oppgavesett) {
+          const span = document.createElement("span");
+          span.dataset.indeks = indeks.toString();
+          span.addEventListener(
+            "click",
+            this.navigerTilSpørsmål.bind(this, { indeks: indeks })
+          );
+          indeks++;
+          span.innerText = indeks.toString();
+          this.quiz.nav.element.appendChild(span);
+        }
+      },
+      hentSpan: indeks =>
+        document.querySelector(`span[data-indeks="${indeks}"]`),
+      settNavAktiv: indeks => {
+        if (document.querySelector(`span.aktiv`))
+          document.querySelector(`span.aktiv`).classList.remove("aktiv"); //fjerner element som er aktiv fra før
+        this.quiz.nav.hentSpan(indeks).classList.add("aktiv"); // setter span som tilsvarer ny indeks aktiv
+        this.quiz.nav.sentrer(document.querySelector(`span.aktiv`)); // sentrer aktiv span
+      },
+      // .besøkt klasse på element i navbar
+      settNavBesøkt: () => {
+        document.querySelector(`span.aktiv`).classList.add("besøkt");
+      },
+      // fjerner .besøkt klasse på element i navbar
+      fjernNavBesøkt: () => {
+        document.querySelector(`span.aktiv`).classList.remove("besøkt");
+      },
+      /**
+       * Sentrerer element ved å justere scroll-x verdi
+       * @param {HTMLElement} e - Element som skal sentreres
+       */
+      oppdater: (indeks, lengde) => {
+        if (this.quiz.svar.valg().length)
+          this.quiz.nav.settNavBesøkt();
+        console.log(this.quiz.svar.valg());
+
+        this.quiz.nav.settNavAktiv(indeks);
+        indeks === lengde // TODO
+          ? this.quiz.visAvslutt(true)
+          : this.quiz.visAvslutt(false);
+        indeks === 0 // TODO
+          ? this.quiz.forrigeDisabled(true)
+          : this.quiz.forrigeDisabled(false);
+
+        this.quiz.nav.sentrer(
+          document.querySelector(`span.aktiv`)
+        ); // sentrerer oppdatert aktivt element
+      },
+      /**
+       * Sentrerer element ved å justere scroll-x verdi
+       * @param {HTMLElement} e - Element som skal sentreres
+       */
+      sentrer: e => {
+        if (e.parentElement.offsetWidth / 2 < e.offsetLeft) {
+          e.parentElement.scrollLeft =
+            e.offsetLeft - e.parentElement.offsetWidth / 2 + e.offsetWidth;
+        } else {
+          e.parentElement.scrollLeft = 0;
+        }
+      }
+    },
+    spørsmål: document.querySelector(".quiz-spørsmål"),
+    svar: {
+      element: document.querySelector(".quiz-svar"),
+      /** @returns {NodeList} - NodeList over valgte inputelementer */
+      valg: () => {
+        return document.querySelectorAll("input:checked");
+      },
+      fjernValg: () => {
+        this.quiz.svar.valg().forEach(e => (e.checked = false));
+        this.quiz.nav.fjernNavBesøkt();
+      },
+      /** @returns {Array} - IDen til valgt(e) svar */
+      valgId: () => {
+        let akkSvar = [];
+        this.quiz.svar.valg().forEach(element => {
+          akkSvar.push(element.id);
+        });
+        return akkSvar;
+      },
+    },
+    visAvslutt: bool => {
+      const nesteSpørsmålKnapp = document.querySelector("#neste");
+      const avsluttKnapp = document.querySelector("#avslutt");
+      bool
+        ? this.skjulElement(nesteSpørsmålKnapp)
+        : this.visElement(nesteSpørsmålKnapp);
+      bool ? this.visElement(avsluttKnapp) : this.skjulElement(avsluttKnapp);
+    },
+    forrigeDisabled: bool => {
+      const forrigeSpørsmålKnapp = document.querySelector("#forrige");
+      // @ts-ignore
+      forrigeSpørsmålKnapp.disabled = bool;
+    },
+    /** Nullstiller dynamiske elementer */
+    nullstill: () => {
+      this.quiz.nav.element.innerHTML = "";
+      this.quiz.spørsmål.innerHTML = "";
+      this.quiz.svar.innerHTML = "";
+      this.oppsummering.spørsmål.innerHTML = "";
+    },
+    /** Bytter overskrift samt tittel. */
+    endreOverskriftOgTittel: emne => { // TODO
+      console.log(this);
+      
+      const suffix = emne ? ` - ${emne}` : "";
+      this.intro.overskrift.nextSibling.innerHTML = suffix ? emne : ""; // setter tittel span
+      document.title = "JavaScript Quiz" + suffix; // setter faneoverskrift
+    }
+  },
+  oppsummering: {
+    main: document.querySelector(".oppsummering"),
+    spørsmål: document.querySelector(".spørsmål-liste")
+  }
+};
+
+let q = new Quiz(seksjoner);
+document
+  .querySelector("#forrige")
+  .addEventListener("click", () => q.navigerTilSpørsmål({ forrige: true }));
+document
+  .querySelector("#neste")
+  .addEventListener("click", () => q.navigerTilSpørsmål({ neste: true }));
+document
+  .querySelector("#nullstill")
+  .addEventListener("click", () => q.seksjoner.quiz.svar.fjernValg());
+const avsluttKnapp = document.querySelector("#avslutt");
+avsluttKnapp.addEventListener("click", q.avsluttQuiz.bind(q));
+
+window.onpopstate = event => {
+  if (!q.oppgavesett) {
+    return q.visIntro();
+  }
+  switch (event.state.seksjon) {
+    case "intro":
+      q.visIntro(); // viser hjemskjerm
+      break;
+    case "quiz":
+      q.visQuiz(); // viser forrige genererte quiz
+      break;
+    case "oppsummering":
+      q.visOppsummering();
+      break;
+    default:
+      q.visIntro(); // viser hjemskjerm
+      break;
+  }
+};

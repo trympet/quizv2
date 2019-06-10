@@ -1,0 +1,13 @@
+html, body {
+  font-family: sans-serif;
+}
+.akse {
+  stroke: #bbb;
+  stroke-dasharray: 0;
+  stroke-width: 1;
+}
+.akse-navn {
+  transform: rotate(270 26 162);
+  color: #000;
+  font-family: sans-serif;
+}

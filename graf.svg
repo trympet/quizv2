@@ -1,0 +1,36 @@
+<svg
+      version="1.2"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      class="graph"
+      aria-labelledby="title"
+      role="img"
+    >
+      <title>Sparing</title>
+      <desc>Du har tjent ... over en periode på 10 år</desc>
+      <polyline></polyline>
+      <g class="y-akse">
+        <line
+          x1="90"
+          x2="90"
+          y1="5"
+          y2="90"
+          style="stroke: #000; strokewidth: 1;"
+        ></line>
+      </g>
+      <g class="akse-tekst">
+        <text>Penger</text>
+      </g>
+      <g class="x-akse">
+        <line
+          x1="90"
+          x2="371"
+          y1="90"
+          y2="90"
+          style="stroke: #000; strokewidth: 1;"
+        ></line>
+      </g>
+      <g class="akse-tekst">
+          <text x="400" y="440">Tid</text>
+        </g>
+    </svg>

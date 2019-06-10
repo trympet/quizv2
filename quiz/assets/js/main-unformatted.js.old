@@ -1,0 +1,322 @@
+// @ts-check
+/*
+https://developer.mozilla.org/en-US/docs/Web/API/History_API
+*/
+
+class HjelpeFunksjoner {
+  skjulElement(element) {
+    element.classList.add('skjult');
+  }
+  visElement(element) {
+    element.classList.remove('skjult')
+    element.hidden = false;
+  }
+}
+class Quiz extends HjelpeFunksjoner {
+  constructor() {
+    super()
+    // DOM
+    /** @constant {Object} - Forskjellige 'views' i applikasjonen */
+    this.seksjoner = {
+      intro: this.intro = document.querySelector('.intro'), // intro wrapper
+      quiz: this.quiz = document.querySelector('.quiz'), // quiz wrapper
+      oppsummering: this.oppsummering = document.querySelector('.oppsummering'), // oppsummering wrapper
+    }
+    /** @member {Array} - array med svar fra bruker */
+    this.svar = [
+      
+    ]
+    window.history.replaceState({seksjon: 'intro'}, 'Hjem');
+    this.overskrift = document.querySelector('.overskrift')
+    this.aktivSeksjon // html element
+    this.quizListe = document.querySelector('.intro-quiz-liste') // liste over klikkbare temaer
+    this.quizNav = document.querySelector('.quiz-nav')
+    this.quizSpørsmål = document.querySelector('.quiz-spørsmål')
+    this.quizSvar = document.querySelector('.quiz-svar')
+    this.spørsmålListe = document.querySelector('.spørsmål-liste')
+    this.spørsmål = []; // spørsmål array fra JSON
+    // henter spørsmål fra lokal JSON fil
+    fetch('assets/spørsmål.json')
+      .then(response => response.json()) // parser json
+      .then(json => this.spørsmål = json)
+      .catch(error => console.error('noe gikk galt', error))
+      .then(this.genererTemaListe.bind(this)) // gjøres kun en gang
+      .then(this.visIntro.bind(this)) // anonymt function call, men bindes til klassen
+  }
+
+  /* DOM Manipulasjon */
+
+  /** Bytter overskrift. Viser introelementer. */
+  endreOverskriftOgTittel(emne) {
+    const suffix = emne ? ` - ${emne}`: ''
+    this.overskrift.firstElementChild.innerHTML = suffix // setter tittel span
+    document.title = 'JavaScript Quiz' + suffix // setter faneoverskrift
+  }
+
+  /**
+   * Viser bestemt seksjon og skjuler alle andre seksjoner
+   * @param {string} [tema] - temanavn 
+   */
+  visSeksjon(tema) {
+    for (const seksjon in this.seksjoner) {  
+      this.skjulElement(this.seksjoner[seksjon]) // skjuler alle seksjoner
+    }
+    this.endreOverskriftOgTittel(tema) // endrer overskrift og tittel
+    this.visElement(this.aktivSeksjon) // viser definert seksjon
+  }
+
+  visIntro() {
+    this.aktivSeksjon = this.seksjoner.intro
+    this.visSeksjon()
+  }
+
+  visQuiz(tema) {
+    this.aktivSeksjon = this.seksjoner.quiz
+    this.visSeksjon(tema)
+  }
+
+  visOppsummering() {
+    this.aktivSeksjon = this.seksjoner.oppsummering
+    this.visSeksjon()
+    window.history.replaceState({seksjon: 'oppsummering'}, 'Oppsummering');
+  }
+
+  /* GENERASJON AV INNHOLD */
+
+  /** Genererer klikkbar link for hvert tema i intro  */
+  genererTemaListe() {
+    this.spørsmål.forEach(quiz => { // for hvert temasett
+      const quizTema = document.createElement('li') 
+      quizTema.innerText = quiz.tema
+      quizTema.dataset.quiz = quiz.tema
+      quizTema.addEventListener('click', () => this.startNyQuiz(quiz.tema)) // starter quiz
+      this.quizListe.appendChild(quizTema) // legger til listeelement 
+    });
+  }
+  /** Genererer navigasjonsbar for valgt tema */
+  genererQuizNav() { // genererer quiz navbar
+    let indeks = 0;
+    for (let o of this.oppgavesett) {
+      const span = document.createElement('span')
+      span.dataset.indeks = indeks.toString()
+      span.addEventListener('click', this.navigerTilSpørsmål.bind(this, {'indeks': indeks}))
+      indeks++
+      span.innerText = indeks.toString()
+      this.quizNav.appendChild(span)
+    }
+  }
+  /** Genererer spørsmål for valgt tema, samt svaralternativer */
+  genererSpørsmål() {
+    let spørsmål = this.oppgavesett[this.quizSpørsmålIndeks].spørsmål
+    this.quizSpørsmål.innerText = spørsmål
+    let svaralternativer = this.oppgavesett[this.quizSpørsmålIndeks].svaralternativer
+    let type = this.oppgavesett[this.quizSpørsmålIndeks].type
+    this.quizSvar.innerHTML = '' // nullstiller svaralternativer
+    for (const indeks in svaralternativer) {
+        const svar = svaralternativer[indeks];
+        let alternativ = document.createElement('div') // wrapper
+        let input = document.createElement('input') // radio eller select
+        input.type = type
+        input.name = 'quiz'
+        input.id = svar // unik id 
+        input.checked = this.hentAvgittSvar(input.id, this.quizSpørsmålIndeks)
+        input.dataset.indeks = indeks 
+        let label = document.createElement('label')
+        label.innerText = svar
+        label.setAttribute('for', svar) // assosioserer med input
+        alternativ.appendChild(input)
+        alternativ.appendChild(label)
+        this.quizSvar.appendChild(alternativ)
+    }
+  }
+  
+  /* QUIZ */
+
+  nullstillQuiz() { // nullstiller quizelementer
+    this.quizNav.innerHTML = '';
+    this.quizSpørsmål.innerHTML = '';
+    this.quizSvar.innerHTML = '';
+    this.spørsmålListe.innerHTML = '';
+  }
+  startNyQuiz(tema) { // rutine for å starte ny quiz
+    this.quizSpørsmålIndeks = 0; // starter på null - nullstilles
+    let valgtTema = this.spørsmål.find(e => e.tema === tema) // henter temaobjekt 
+    this.oppgavesett = valgtTema.oppgavesett // array med oppgaver
+    /** Muterer hvert spørsmålsobject til å ha egenskap om korrekt/ikke + avgitt svar */
+    this.oppgavesett.forEach(spørsmål => Object.assign(spørsmål, {svar: [], riktig: []}))
+    this.visQuiz(tema) // viser quiz elementer
+    this.nullstillQuiz() // nullstiller quiz elementer
+    this.genererSpørsmål() // genererer quiz innhold
+    this.genererQuizNav() // genererer quiz nav
+    this.settNavAktiv()
+    this.visAvsluttKnapp(false)
+    this.forrigeDisabled(true)
+    window.history.pushState({seksjon: 'quiz', tema: tema}, 'Quiz');
+  }
+
+  settNavAktiv() {
+    const aktivSpan = document.querySelector(`.quiz-nav>span[data-indeks="${this.quizSpørsmålIndeks}"]`)
+    aktivSpan.classList.add('aktiv')
+  }
+  fjernNavAktiv() {
+    const aktivSpan = document.querySelector(`.quiz-nav>span[data-indeks="${this.quizSpørsmålIndeks}"]`)
+    aktivSpan.classList.remove('aktiv')
+  }
+  settNavBesøkt() {
+    const aktivSpan = document.querySelector(`.quiz-nav>span[data-indeks="${this.quizSpørsmålIndeks}"]`)
+    aktivSpan.classList.add('besøkt')
+  }
+  fjernNavBesøkt() {
+    const aktivSpan = document.querySelector(`.quiz-nav>span[data-indeks="${this.quizSpørsmålIndeks}"]`)
+    aktivSpan.classList.remove('besøkt')
+  }
+
+  /* NAVIGASJON */
+  evaluerOmSiste() {
+    let nyIndeks = this.quizSpørsmålIndeks + 1
+    return nyIndeks >= this.oppgavesett.length
+  }
+  evaluerOmFørste() {
+    let nyIndeks = this.quizSpørsmålIndeks - 1
+    return nyIndeks < 0
+  }
+  visAvsluttKnapp(bool) {
+    const nesteSpørsmålKnapp = document.querySelector('#neste')
+    const avsluttKnapp = document.querySelector('#avslutt')
+    bool ? this.skjulElement(nesteSpørsmålKnapp) : this.visElement(nesteSpørsmålKnapp)
+    bool ? this.visElement(avsluttKnapp) : this.skjulElement(avsluttKnapp)
+  }
+  forrigeDisabled(bool) {
+    const forrigeSpørsmålKnapp = document.querySelector('#forrige')
+    forrigeSpørsmålKnapp.disabled = bool
+  }
+  navigerTilSpørsmål({ forrige = false, neste = false, indeks = -1 }) {    
+    this.lagreSvar()
+    this.inputChecked().length ? this.settNavBesøkt() : this.fjernNavBesøkt() // setter besøktklasse på navelement
+    this.fjernNavAktiv()
+    if (indeks >= 0) {
+      this.quizSpørsmålIndeks = indeks
+    } 
+    if(neste) {
+      this.quizSpørsmålIndeks++
+    }
+    if (forrige) {
+      this.quizSpørsmålIndeks--
+    }
+    this.evaluerOmSiste() ? this.visAvsluttKnapp(true) : this.visAvsluttKnapp(false)
+    this.evaluerOmFørste() ? this.forrigeDisabled(true) : this.forrigeDisabled(false)
+    this.settNavAktiv()
+    this.genererSpørsmål()
+  }
+  /** Henter NodeList over valgte svar*/
+  inputChecked() {
+    return document.querySelectorAll('input:checked')
+  }
+  nullstillSvar() {
+    this.inputChecked().forEach(e => e.checked = false)
+  }
+  hentAvgittSvar(element, indeks) {    
+    return this.oppgavesett[indeks].svar.some(e => { 
+      return e === element
+    })
+  }
+  lagreSvar() {
+    const svar = this.inputChecked()
+    if (!svar) {
+      return false
+    }
+    let akkSvar = []
+    svar.forEach(element => {      
+      akkSvar.push(element.id)
+      console.log(element.id);
+      
+    })    
+    this.oppgavesett[this.quizSpørsmålIndeks].svar = akkSvar
+  }
+
+  /* OPPSUMMERING */
+  avsluttQuiz() {
+    console.log(this.oppgavesett);
+    
+    this.lagreSvar()
+    this.visOppsummering()
+    this.genererOppsummering()
+    
+  }
+  /** Muterer oppgavesett-objektet med array som inneholder
+   * svar som bruker svarte rett på
+   */
+  finnRiktige(spm) {
+    spm.svar.forEach( svar => {
+      spm.fasit.forEach( fasit => {
+        if (svar === fasit) {
+          spm.riktig.push(fasit)
+        }     
+      });
+
+    });
+  }
+  genererOppsummering() {
+    this.oppgavesett.forEach( spm => {      
+      this.finnRiktige(spm)
+      let ul = document.createElement('ul')
+      ul.classList.add('alternativer')
+      spm.svaralternativer.forEach(alt => {
+        let li = document.createElement('li')
+        li.classList.add('alternativ')
+        li.innerHTML = alt
+        if (spm.riktig.includes(alt)) {
+          li.classList.add('riktig')
+        } else if (spm.svar.includes(alt)) {
+          li.classList.add('galt')
+        } else if (spm.fasit.includes(alt)) {
+          li.classList.add('fasit')
+        }
+        ul.appendChild(li)
+      });
+      let span = document.createElement('span')
+      span.addEventListener('click', e => e.target.parentNode.classList.toggle('aktiv'))
+      span.innerText = spm.spørsmål
+      span.dataset.content = `${spm.riktig.length} / ${spm.fasit.length}`;   
+
+      let spørsmål = document.createElement('div')
+      spørsmål.classList.add('spørsmål')
+      spørsmål.appendChild(span)
+      spørsmål.appendChild(ul)
+      this.spørsmålListe.appendChild(spørsmål)
+    });
+  }
+}
+
+
+
+
+let q = new Quiz();
+document.querySelector('#forrige').addEventListener('click', () => q.navigerTilSpørsmål({'forrige': true}))
+document.querySelector('#neste').addEventListener('click',  () => q.navigerTilSpørsmål({'neste': true}))
+document.querySelector('#nullstill').addEventListener('click',  () => q.nullstillSvar())
+const avsluttKnapp = document.querySelector('#avslutt')
+avsluttKnapp.addEventListener('click', q.avsluttQuiz.bind(q))
+
+
+window.onpopstate = event => {
+  if (!q.oppgavesett) {
+    return q.visIntro();
+  }
+  switch (event.state.seksjon) {
+    case 'intro':
+      q.visIntro(); // viser hjemskjerm
+      break;
+    case 'quiz':
+      q.visQuiz() // viser forrige genererte quiz
+      break;
+    case 'oppsummering':
+      q.visOppsummering()
+      break;
+    default:
+      q.visIntro(); // viser hjemskjerm
+      break;
+  }
+
+}
+

@@ -1,0 +1,23 @@
+Programvare tatt i bruk under utvikling:
+
+Texteditor: Visual Studio Code versjon 1.33.1
+Nettleser: Google Chrome versjon 74.0.3729.108 64 bit
+Operativsystem: Windows 10 versjon 1903
+
+--------------------------------------------------------------------------------
+
+Til info ang. quiz-appen:
+
+Hvis du opplever CORS feil når du prøver å servere nettsiden fra en
+lokal fil i google chrome, så er dette grunnet at Google sin implementasjon
+av fetch APIen krever CORS sjekk, også fra lokale filer. Hvis du åpner
+.html-filen med Firefox, eller serverer nettsiden fra en lokal fil vil
+du ikke få disse feilmeldingene. Alternativt kan du åpne chrome med følgende
+flagg: Chrome.exe --disable-web-security
+
+Til tross for dette har jeg valgt å benytte meg av fetch APIen, fordi dette er
+et senario man kun vil støte på under utvikling av appen, ikke i produksjon.
+
+les mer her:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Specifications
+https://fetch.spec.whatwg.org/#cors-protocol

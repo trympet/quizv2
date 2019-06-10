@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rentes rente kalkulator</title>
+    <link rel="stylesheet" href="rentesrente.css" />
+  </head>
+  <body>
+    <h1>Kalkuler rentes rente! (eng: compound interest)</h1>
+    <form id="rente">
+      <div class="form-gruppe">
+        <label for="startkapital">Startkapital</label>
+        <input type="number" name="startkapital" id="startkapital" min="0" value="1000" />
+      </div>
+      <div class="form-gruppe">
+        <label for="månedlig-innskudd">Måndlig innskudd</label>
+        <input type="number" name="mnd-inn" id="mnd-inn" value="100" />
+      </div>
+      <div class="form-gruppe">
+        <label for="sparehorisont">Sparehorisont (år)</label>
+        <input type="number" name="sparehorisont" id="sparehorisont" value="5" />
+      </div>
+      <div class="form-gruppe">
+        <label for="rentesats">Esimert rentesats</label>
+        <input type="number" name="rentesats  " id="rentesats" value="10" />
+      </div>
+      <div class="form-gruppe">
+        <label for="tidsintervall">Antall årlige utbetalinger</label>
+        <input type="number" name="tidsintervall" id="tidsintervall" value="12" />
+      </div>
+      <button type="submit">Kalkuler</button>
+    </form>
+    <div class="output"></div>
+
+    <section class="graf">
+
+    </section>
+
+    <script src="rentesrente.js"></script>
+  </body>
+</html>
